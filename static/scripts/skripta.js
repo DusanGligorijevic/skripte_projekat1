@@ -68,6 +68,9 @@ function initUsers() {
 
                         return response.json();
                     }).then((jsonData) => {
+                        if (jsonData.msg) {
+                            alert(data.msg);
+                        }
                         // jsonData.name = putdata.name;
                         // jsonData.phoneNumber = putdata.phoneNumber;
                         // jsonData.address = putdata.address;

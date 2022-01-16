@@ -8,11 +8,10 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+
+
 const app = express();
-app.use('/api', books);
-app.use('/api', authors);
-app.use('/api', users);
-app.use('/api', publishers);
+
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -76,26 +75,25 @@ app.get('/register', (req, res) => {
 app.get('/login', (req, res) => {
     res.sendFile('login.html', { root: './static' });
 });
-app.get('/admin/naslovna', (req, res) => {
+app.get('/naslovna', (req, res) => {
     res.sendFile('naslovna.html', { root: './static' });
 });
 app.get('/', authToken,  (req, res) => {
     res.sendFile('naslovna.html', { root: './static' });
 });
 
-app.get('/admin/users', authToken, (req, res) => {
+app.get('/users', authToken, (req, res) => {
     res.sendFile('users.html', { root: './static' });
 });
-app.get('/admin/authors', authToken,  (req, res) => {
+app.get('/authors', authToken,  (req, res) => {
     res.sendFile('authors.html', { root: './static' });
 });
-app.get('/admin/publishers', authToken,  (req, res) => {
+app.get('/publishers', authToken,  (req, res) => {
     res.sendFile('publishers.html', { root: './static' });
 });
-app.get('/admin/books', authToken,  (req, res) => {
+app.get('/books', authToken,  (req, res) => {
     res.sendFile('books.html', { root: './static' });
 });
-
 
 app.use(express.static(path.join(__dirname, 'static')));
 
