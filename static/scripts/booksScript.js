@@ -84,7 +84,7 @@ function initBooks() {
                         // jsonData.phoneNumber = putdata.phoneNumber;
                         // jsonData.address = putdata.address;
                         // lst.innerHTML.replace(`<li>ID: ${el.id}, Name: ${el.name}, phoneNumber: ${el.phoneNumber}, address: ${el.address}</li>`,`<li>ID: ${jsonData.id}, Name: ${jsonData.name}, phoneNumber: ${jsonData.phoneNumber}, address: ${jsonData.address}</li>`)
-                        window.location.href = 'index.html';
+                        window.location.href = 'naslovna.html';
                     })
                 })
             })

@@ -72,7 +72,7 @@ function initUsers() {
                         // jsonData.phoneNumber = putdata.phoneNumber;
                         // jsonData.address = putdata.address;
                         // lst.innerHTML.replace(`<li>ID: ${el.id}, Name: ${el.name}, phoneNumber: ${el.phoneNumber}, address: ${el.address}</li>`,`<li>ID: ${jsonData.id}, Name: ${jsonData.name}, phoneNumber: ${jsonData.phoneNumber}, address: ${jsonData.address}</li>`)
-                        window.location.href = 'index.html';
+                        window.location.href = 'naslovna.html';
                     })
                 })
             })
@@ -92,7 +92,7 @@ function initUsers() {
 
     document.getElementById('logout').addEventListener('click', e => {
         document.cookie = `token=;SameSite=Lax`;
-        window.location.href = 'login.html';
+        window.location.href = 'naslovna.html';
     });
 }
 function bindDelete(button, token){
@@ -110,7 +110,7 @@ function bindDelete(button, token){
 
             return response.json()
         }).then(el => {
-            window.location.href = 'index.html';
+            window.location.href = 'naslovna.html';
         });
     });
     console.log(button)
@@ -131,7 +131,7 @@ function bindDelete2(button, token) {
 
             return response.json()
         }).then(el => {
-            window.location.href = 'index.html';
+            window.location.href = 'naslovna.html';
         });
     };
     console.log(button)

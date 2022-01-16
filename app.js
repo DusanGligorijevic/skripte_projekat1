@@ -83,16 +83,16 @@ app.get('/', authToken,  (req, res) => {
     res.sendFile('naslovna.html', { root: './static' });
 });
 
-app.get('/users', authToken, (req, res) => {
+app.get('/admin/users', authToken, (req, res) => {
     res.sendFile('users.html', { root: './static' });
 });
-app.get('/authors', authToken,  (req, res) => {
+app.get('/admin/authors', authToken,  (req, res) => {
     res.sendFile('authors.html', { root: './static' });
 });
-app.get('/publishers', authToken,  (req, res) => {
+app.get('/admin/publishers', authToken,  (req, res) => {
     res.sendFile('publishers.html', { root: './static' });
 });
-app.get('/books', authToken,  (req, res) => {
+app.get('/admin/books', authToken,  (req, res) => {
     res.sendFile('books.html', { root: './static' });
 });
 
@@ -100,6 +100,6 @@ app.get('/books', authToken,  (req, res) => {
 app.use(express.static(path.join(__dirname, 'static')));
 
 
-app.listen({ port: 8000 }, async () => {
+app.listen({ port: 8080 }, async () => {
     await sequelize.authenticate();
 });
