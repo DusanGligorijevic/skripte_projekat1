@@ -1,103 +1,111 @@
 const express = require('express');
-const { sequelize } = require('./models');
-const users = require('./routes/users');
-const authors = require('./routes/authors');
-const books = require('./routes/books');
-const publishers = require('./routes/publishers');
+const { sequelize, Users, Messages } = require('./models');
+//const msgs = require('./routes/messages');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const cors = require('cors');
+const http = require('http');
+const { Server } = require("socket.io");
 require('dotenv').config();
 
-
-
 const app = express();
-
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: 'http://127.0.0.1:8080',
+        methods: ['GET', 'POST'],
+        credentials: true
+    },
+    allowEIO3: true
 });
 
+var corsOptions = {
+    origin: 'http://127.0.0.1:8080',
+    optionsSuccessStatus: 200
+}
 
+app.use(express.json());
+app.use(cors(corsOptions));
 
-function getCookies(req) {
-    if (req.headers.cookie == null) return {};
+app.post('/register', (req, res) => {
 
-    const rawCookies = req.headers.cookie.split('; ');
-    const parsedCookies = {};
+    const obj = {
+        name: req.body.name,
+        email: req.body.email,
+        admin: req.body.admin,
+        password: bcrypt.hashSync(req.body.password, 10)
+    };
 
-    rawCookies.forEach( rawCookie => {
-        const parsedCookie = rawCookie.split('=');
-        parsedCookies[parsedCookie[0]] = parsedCookie[1];
+    Users.create(obj).then( rows => {
+
+        const usr = {
+            userId: rows.id,
+            user: rows.name
+        };
+
+        const token = jwt.sign(usr, process.env.ACCESS_TOKEN_SECRET);
+
+        res.json({ token: token });
+
+    }).catch( err => res.status(500).json(err) );
+});
+
+app.post('/login', (req, res) => {
+
+    Users.findOne({ where: { name: req.body.name } })
+        .then( usr => {
+
+            if (bcrypt.compareSync(req.body.password, usr.password)) {
+                const obj = {
+                    userId: usr.id,
+                    user: usr.name
+                };
+
+                const token = jwt.sign(obj, process.env.ACCESS_TOKEN_SECRET);
+
+                res.json({ token: token });
+            } else {
+                res.status(400).json({ msg: "Invalid credentials"});
+            }
+        })
+        .catch( err => res.status(500).json(err) );
+});
+
+function authSocket(msg, next) {
+    if (msg[1].token == null) {
+        next(new Error("Not authenticated"));
+    } else {
+        jwt.verify(msg[1].token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            if (err) {
+                next(new Error(err));
+            } else {
+                msg[1].user = user;
+                next();
+            }
+        });
+    }
+}
+
+io.on('connection', socket => {
+    socket.use(authSocket);
+
+    socket.on('comment', msg => {
+        Messages.create({ body: msg.body, artId: msg.artId, userId: msg.user.userId })
+            .then( rows => {
+                Messages.findOne({ where: { id: rows.id }, include: ['user'] })
+                    .then( msg => io.emit('comment', JSON.stringify(msg)) )
+            }).catch( err => res.status(500).json(err) );
     });
 
-    return parsedCookies;
-};
 
-function authToken(req, res, next) {
-    const cookies = getCookies(req);
-    const token = cookies['token'];
-
-    if (token == null) return res.redirect(301, '/login');
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-
-        if (err) return res.redirect(301, '/login');
-
-        req.user = user;
-
-        next();
-    });
-}
-function parseJwt (token) {
-    console.log(token);
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-};
-
-function isAdmin (req, res, next){
-    const cookies = getCookies(req);
-    const token = cookies['token'];
-    const user = parseJwt(token);
-    if(user.isAdmin){
-            return true;
-    }else return false;
-}
-app.get('/register', (req, res) => {
-    res.sendFile('register.html', { root: './static' });
-
-});
-app.get('/login', (req, res) => {
-    res.sendFile('login.html', { root: './static' });
-});
-app.get('/naslovna', (req, res) => {
-    res.sendFile('naslovna.html', { root: './static' });
-});
-app.get('/', authToken,  (req, res) => {
-    res.sendFile('naslovna.html', { root: './static' });
+    socket.on('error', err => socket.emit('error', err.message) );
 });
 
-app.get('/users', authToken, (req, res) => {
-    res.sendFile('users.html', { root: './static' });
-});
-app.get('/authors', authToken,  (req, res) => {
-    res.sendFile('authors.html', { root: './static' });
-});
-app.get('/publishers', authToken,  (req, res) => {
-    res.sendFile('publishers.html', { root: './static' });
-});
-app.get('/books', authToken,  (req, res) => {
-    res.sendFile('books.html', { root: './static' });
-});
+ app.get('/', authToken, (req, res) => {
+     res.sendFile('index.html', { root: './static' });
+ });
 
-app.use(express.static(path.join(__dirname, 'static')));
-
-
-app.listen({ port: 8080 }, async () => {
+server.listen({ port: 8000 }, async () => {
     await sequelize.authenticate();
 });

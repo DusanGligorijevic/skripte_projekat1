@@ -27,7 +27,6 @@ function authToken(req, res, next) {
         next();
     });
 }
-
 //route.use(authToken);
 
 route.get('/publishers', (req, res) => {
