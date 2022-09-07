@@ -30,7 +30,6 @@
 
 
       </b-navbar>
-
     </div>
 
     <router-view/>
@@ -39,10 +38,8 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from 'vuex';
-
 export default {
   name: 'App',
-
   computed: {
     ...mapState([
       'token'
@@ -64,11 +61,10 @@ export default {
 
     logout() {
       this.removeToken();
-      this.$router.push({ name: 'Home' });
+      this.$router.push({name: 'Home'});
 
+    },
     }
-  }
-
 }
 
 

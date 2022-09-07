@@ -59,7 +59,7 @@ export default new Vuex.Store({
 
   actions: {
     register({ commit }, obj) {
-      fetch('http://127.0.0.1:9000/register', {
+      fetch('/api_register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(obj)
@@ -68,7 +68,7 @@ export default new Vuex.Store({
     },
 
     login({ commit }, obj) {
-      fetch('http://127.0.0.1:9000/login', {
+      fetch('/api_login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(obj)
@@ -85,7 +85,7 @@ export default new Vuex.Store({
           });
     },
     getAuthors({ commit }){
-      fetch('http://127.0.0.1:8000/api/authors',{
+      fetch('api/authors',{
         headers: {
           'Authorization': `Bearer ${localStorage.token}`
         }
@@ -95,7 +95,7 @@ export default new Vuex.Store({
 
     },
     createAuthor({commit},obj){
-      fetch('http://127.0.0.1:8000/api/authors', {
+      fetch('api/authors', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/authors',{
+              fetch('api/authors',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -120,7 +120,7 @@ export default new Vuex.Store({
           });
     },
     deleteAuthor({commit},id){
-      fetch(`http://127.0.0.1:8000/api/authors/${id}`, {
+      fetch(`api/authors/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/authors',{
+              fetch('api/authors',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -143,7 +143,7 @@ export default new Vuex.Store({
           });
     },
     updateAuthor({commit,state},obj){
-      fetch(`http://127.0.0.1:8000/api/authors/${state.authorformset}`, {
+      fetch(`api/authors/${state.authorformset}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/authors',{
+              fetch('api/authors',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -174,7 +174,7 @@ export default new Vuex.Store({
     },
 
     getPublishers({ commit }){
-      fetch('http://127.0.0.1:8000/api/publishers',{
+      fetch('api/publishers',{
         headers: {
           'Authorization': `Bearer ${localStorage.token}`
         }
@@ -184,7 +184,7 @@ export default new Vuex.Store({
 
     },
     createPublisher({commit},obj){
-      fetch('http://127.0.0.1:8000/api/publishers', {
+      fetch('api/publishers', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -198,7 +198,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/publishers',{
+              fetch('api/publishers',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -209,7 +209,7 @@ export default new Vuex.Store({
           });
     },
     deletePublisher({commit},id){
-      fetch(`http://127.0.0.1:8000/api/publishers/${id}`, {
+      fetch(`api/publishers/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/publishers',{
+              fetch('api/publishers',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -232,7 +232,7 @@ export default new Vuex.Store({
           });
     },
     updatePublisher({commit,state},obj){
-      fetch(`http://127.0.0.1:8000/api/publishers/${state.publisherformset}`, {
+      fetch(`api/publishers/${state.publisherformset}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -245,7 +245,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/publishers',{
+              fetch('api/publishers',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -260,7 +260,7 @@ export default new Vuex.Store({
     },
 
     getUsers({ commit }){
-      fetch('http://127.0.0.1:8000/api/users',{
+      fetch('api/users',{
         headers: {
           'Authorization': `Bearer ${localStorage.token}`
         }
@@ -270,7 +270,7 @@ export default new Vuex.Store({
 
     },
     createUser({commit},obj){
-      fetch('http://127.0.0.1:8000/api/users', {
+      fetch('api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -284,7 +284,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/users',{
+              fetch('api/users',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -295,7 +295,7 @@ export default new Vuex.Store({
           });
     },
     deleteUser({commit},id){
-      fetch(`http://127.0.0.1:8000/api/users/${id}`, {
+      fetch(`api/users/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -307,7 +307,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/users',{
+              fetch('api/users',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -318,7 +318,7 @@ export default new Vuex.Store({
           });
     },
     updateUser({commit,state},obj){
-      fetch(`http://127.0.0.1:8000/api/users/${state.userformset}`, {
+      fetch(`api/users/${state.userformset}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -331,7 +331,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/users',{
+              fetch('api/users',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -346,7 +346,7 @@ export default new Vuex.Store({
     },
 
     getBooks({ commit }){
-      fetch('http://127.0.0.1:8000/api/books',{
+      fetch('api/books',{
         headers: {
           'Authorization': `Bearer ${localStorage.token}`
         }
@@ -356,7 +356,7 @@ export default new Vuex.Store({
 
     },
     postbook({commit},obj){
-      fetch('http://127.0.0.1:8000/api/books/', {
+      fetch('api/books/', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -371,7 +371,7 @@ export default new Vuex.Store({
                 if (data.msg) {
                   alert(data.msg);
                 } else {
-                  fetch('http://127.0.0.1:8000/api/books', {
+                  fetch('api/books', {
                     headers: {
                       'Authorization': `Bearer ${localStorage.token}`
                     }
@@ -385,7 +385,7 @@ export default new Vuex.Store({
 
     },
     deletebook({commit},id){
-      fetch(`http://127.0.0.1:8000/api/books/${id}`, {
+      fetch(`api/books/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -397,7 +397,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/books',{
+              fetch('api/books',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }
@@ -408,7 +408,7 @@ export default new Vuex.Store({
           });
     },
     updatebook({commit,state},obj){
-      fetch(`http://127.0.0.1:8000/api/books/${state.bookformset}`, {
+      fetch(`api/books/${state.bookformset}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -422,7 +422,7 @@ export default new Vuex.Store({
             if (data.msg) {
               alert(data.msg);
             } else {
-              fetch('http://127.0.0.1:8000/api/books',{
+              fetch('api/books',{
                 headers: {
                   'Authorization': `Bearer ${localStorage.token}`
                 }

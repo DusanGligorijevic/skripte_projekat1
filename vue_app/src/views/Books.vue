@@ -4,6 +4,7 @@
     <PostBook />
     <DeleteBook />
     <UpdateBook />
+    <Comments />
   </div>
   <div v-else>
     <GetBooks />
@@ -17,6 +18,7 @@ import GetBooks from "@/components/books/GetBooks";
 import PostBook from "@/components/books/PostBook";
 import DeleteBook from "@/components/books/DeleteBook";
 import UpdateBook from "@/components/books/UpdateBook";
+import Comments from "@/components/Comments";
 export default {
   name: 'Books',
 
@@ -27,6 +29,7 @@ export default {
     }
   },
   components: {
+    Comments,
     UpdateBook,
     DeleteBook,
     GetBooks,

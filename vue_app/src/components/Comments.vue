@@ -9,13 +9,12 @@
         @keydown.enter="onSubmit"
       ></b-form-input>
 
-      <b-card v-for="comment in books.comments" :title="comment.user.name" :key="comment.id">
+      <b-card >
         <b-card-text>
           {{ comment.body }}
         </b-card-text>
       </b-card>
     </div>
-    <p v-else>You must be signed in to leave a comment</p>
   </div>
 </template>
 

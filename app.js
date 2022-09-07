@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require("socket.io");
+const history = require('connect-history-api-fallback');
 require('dotenv').config();
 
 const app = express();
@@ -28,7 +29,7 @@ var corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 
-app.post('/register', (req, res) => {
+app.post('/api_register', (req, res) => {
 
     const obj = {
         name: req.body.name,
@@ -51,7 +52,7 @@ app.post('/register', (req, res) => {
     }).catch( err => res.status(500).json(err) );
 });
 
-app.post('/login', (req, res) => {
+app.post('/api_login', (req, res) => {
 
     Users.findOne({ where: { name: req.body.name } })
         .then( usr => {
@@ -102,10 +103,16 @@ io.on('connection', socket => {
     socket.on('error', err => socket.emit('error', err.message) );
 });
 
- app.get('/', authToken, (req, res) => {
-     res.sendFile('index.html', { root: './static' });
- });
+ //app.get('/', authToken, (req, res) => {
+  //   res.sendFile('index.html', { root: './static' });
+ //});
 
+const staticMdl = express.static(path.join(__dirname, 'dist'));
+app.use(staticMdl);
+
+app.use(history({ index: '/index.html' }));
+
+app.use(staticMdl);
 server.listen({ port: 8000 }, async () => {
     await sequelize.authenticate();
 });
