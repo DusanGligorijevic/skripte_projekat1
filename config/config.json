@@ -14,10 +14,19 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "unnwsyoddlygpe",
+    "password": "29e7bda2d0e4b458a977f4ddba72a6a2638fbac8465a17c6af51ad0531953b29",
+    "database": "d6t6ttpflffi17",
+    "host": "ec2-63-32-248-14.eu-west-1.compute.amazonaws.com",
+    "port": 5432,
+    "dialect": "postgres",
+    "logging": false,
+    "sll": true,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
