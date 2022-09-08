@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: 'http://127.0.0.1:8080',
+        origin: '*',
         methods: ['GET', 'POST'],
         credentials: true
     },
@@ -22,7 +22,7 @@ const io = new Server(server, {
 });
 
 var corsOptions = {
-    origin: 'http://127.0.0.1:8080',
+    origin: '*',
     optionsSuccessStatus: 200
 }
 
