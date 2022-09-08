@@ -7,8 +7,9 @@ const books = require('./routes/books');
 const publishers = require('./routes/publishers');
 const bcrypt = require('bcrypt');
 const http = require('http');
+const path = require('path');
 const { Server } = require("socket.io");
-
+const history = require('connect-history-api-fallback');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -67,6 +68,13 @@ io.on('connection', socket => {
 
     socket.on('error', err => socket.emit('error', err.message) );
 });
-server.listen({ port: 8000 }, async () => {
+const staticMdl = express.static(path.join(__dirname, 'dist'));
+app.use(staticMdl);
+
+app.use(history({ index: '/index.html' }));
+
+app.use(staticMdl);
+
+server.listen({ port: 8001 }, async () => {
     await sequelize.authenticate();
 });

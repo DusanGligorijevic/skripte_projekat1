@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 require('dotenv').config();
-
+const path = require('path');
+const history = require('connect-history-api-fallback');
 const app = express();
 
 var corsOptions = {
@@ -62,6 +63,12 @@ app.post('/login', (req, res) => {
         })
         .catch( err => res.status(500).json(err) );
 });
+const staticMdl = express.static(path.join(__dirname, 'dist'));
+app.use(staticMdl);
+
+app.use(history({ index: '/index.html' }));
+
+app.use(staticMdl);
 
 app.listen({ port: 9000 }, async () => {
     await sequelize.authenticate();
